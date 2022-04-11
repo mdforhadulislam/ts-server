@@ -1,19 +1,24 @@
 const http = require("http");
 import hendler from "./hendler/hendlerReqRes";
 
-const app:any = {};
-
-app.config = {
-  port: 3000,
+// object type set
+let app: {
+  config: { port: number };
+  createServer: Function;
+  hendlerReqRes: Function;
 };
 
-app.createServer = () => {
-  const server = http.createServer(app.hendlerReqRes);
-  server.listen(app.config.port, () => {
-    console.log(`Server is listening on port ${app.config.port}`);
-  });
+app = {
+  config: {
+    port: 3000,
+  },
+  createServer: function () {
+    const server = http.createServer(this.hendlerReqRes);
+    server.listen(this.config.port, () => {
+      console.log(`Server is listening on port ${this.config.port}`);
+    });
+  },
+  hendlerReqRes: hendler.hendlerReqRes,
 };
-
-app.hendlerReqRes = hendler.hendlerReqRes;
 
 app.createServer();
